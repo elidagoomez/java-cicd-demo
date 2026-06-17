@@ -1,0 +1,33 @@
+name: Java Build Demo
+on:
+  push:
+    branches: 
+      - main
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: SetUp Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name:  compile
+        run: javac HelloWorld.java
+
+      - name: create JAR
+        run: jar cfe HelloWorld.jar HelloWorld HelloWorld.class
+
+      - name: test JAR
+        run: java -jar HelloWorld.jar
+
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-world-jar
+          path: HelloWorld.jar
