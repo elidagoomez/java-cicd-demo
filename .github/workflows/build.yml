@@ -31,3 +31,25 @@ jobs:
         with:
           name: hello-world-jar
           path: HelloWorld.jar
+          
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: hellow-world-jar
+
+      - name: verify artifact
+        run: ls -la
+
+      - name: simulate deployment
+        run: |
+          mkdir deployed
+          cp HelloWorld.jar deployed/
+          echo "Application deployed successfully"
+
+      - name: Verify deployment
+        run: ls -la deployed/
